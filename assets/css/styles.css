@@ -704,10 +704,8 @@ body.dark-theme{
   row-gap: 3.5rem;
 }
 
-/* ====== How Color of text changes in dark mode ======= */
-body.dark-theme .connect__form-submit {
-  color: #fff; /* Light text color */
-}
+
+
 
 .connect__title{
   display: flex;
@@ -735,6 +733,17 @@ body.dark-theme .connect__form-submit {
   margin-top: 3rem;
   display: grid;
   gap: 5rem;
+}
+:root {
+  --text-detail: #191A1C; /* black text for light mode */
+}
+
+body.dark-theme {
+  --text-detail: #fff; /* white text for dark mode */
+}
+
+.connect__detail-value {
+  color: var(--text-detail);
 }
 
 
@@ -772,7 +781,11 @@ body.dark-theme .connect__form-submit {
 
 .connect__form{
   position: relative;
-  row-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: -10px; /* or a fixed height if needed */
+ 
 }
 
 .connect__form-group{
@@ -817,19 +830,45 @@ body.dark-theme .connect__form-submit {
   resize: none;
 }
 
-.connect__form .connect__form-submit{
+:root {
+  --btn-bg: #191A1C;      
+  --btn-color: #fff;   
+}
+
+body.dark-theme {
+  --btn-bg: #191A1C;      
+  --btn-color: #fff;   
+}
+
+/* ====== How Color of text changes in dark mode ======= */
+body.dark-theme .connect__form-submit {
+  color: var(--btn-bg);
+  background: #fff; 
+
+}
+body.light-theme .connect__detail-value{
+  color: #191A1C;
+}
+
+.connect__form .connect__form-submit {
+  align-self: flex-end; 
   border: none;
-  background: none;
+  margin-top: -1rem;
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  padding: 0.5rem 1.2rem;
+  border-radius: 1rem;
   font-size: var(--h2-font-size);
   font-family: var(--title-font);
   font-weight: var(--font-semi-bold);
   cursor: pointer;
   outline: none;
-  margin-top: .75rem;
+  transition: background 0.3s, color 0.3s;
 }
 
+
 .connect__form .connect__form-submit i{
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: initial;
 }
 
