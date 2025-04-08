@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link rel="shortcut icon" href="assets/Logo.png" type="image/x-icon" />
+
+    <!--=============== REMIXICONS ===============-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!--=============== GOOGLE FONTS (Poppins) ===============-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <!--============= Email Js ============ -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init({
+          publicKey: "bWat0ctF1wEZ3gKED",
+        });
+      })();
+    </script>
+
+    <title>Jovial's Portfolio</title>
+  </head>
+  <body>
+    <!--==================== TOP BAR ====================-->
+    <header class="topbar" id="topbar">
+      <nav class="navbar container">
+        <a
+          href="/"
+          class="navbar__brand"
+          style="font-family: 'Stereofunk', roboto"
+        >
+          <img id="logo" src="/assets/logo-white.png" alt="Jovial" />
+        </a>
+        <div class="navbar__menu" id="nav-menu">
+          <ul class="navbar__items grid">
+            <li class="navbar__element">
+              <a href="#home" class="navbar__url active-url">
+                <i class="ri-home-line"></i> Home
+              </a>
+            </li>
+            <li class="navbar__element">
+              <a href="#skills" class="navbar__url">
+                <i class="ri-code-line"></i> Skills
+              </a>
+            </li>
+            <li class="navbar__element">
+              <a href="#education" class="navbar__url">
+                <i class="ri-book-line"></i> Education
+              </a>
+            </li>
+            <li class="navbar__element">
+              <a href="#works" class="navbar__url">
+                <i class="ri-macbook-line"></i> Works
+              </a>
+            </li>
+            <li class="navbar__element">
+              <a href="#connect" class="navbar__url">
+                <i class="ri-chat-4-line"></i> Connect
+              </a>
+            </li>
+          </ul>
+
+          <!-- Close button -->
+          <div class="navbar__close" id="nav-close">
+            <i class="ri-close-line"></i>
+          </div>
+        </div>
+
+        <div class="navbar__actions">
+          <!-- Theme change button -->
+          <i class="ri-moon-line toggle-theme" id="theme-toggle"></i>
+
+          <!-- Toggle button -->
+          <div class="navbar__toggle" id="nav-toggle">
+            <i class="ri-menu-line"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!--==================== MAIN CONTENT ====================-->
+    <main class="content">
+      <!--==================== HERO SECTION ====================-->
+      <section class="hero segment" id="home">
+        <div class="hero__wrapper container grid segment__divider">
+          <div class="hero__content grid">
+            <h1 class="hero__heading">
+              Hi, I'm Jovial <br />
+              Web Developer, <br />
+              UI & UX Designer <br />
+              Based in Kigali <br />
+            </h1>
+            <div class="hero__image-container grid">
+              <div class="hero__profile">
+                <img src="PFF.jpg" alt="profile photo" />
+              </div>
+              <img
+                src="assets/img/shape-wawes.svg"
+                alt=""
+                class="hero__wave-shape"
+              />
+              <img
+                src="assets/img/shape-circle.svg"
+                alt=""
+                class="hero__circle-shape"
+              />
+              <!-- Dotted circle-->
+            </div>
+            <ul class="hero__social-links">
+              <a
+                href="https://www.linkedin.com/in/gabiro-jovial-fleuron-454115247"
+                target="_blank"
+                class="hero__social-item"
+              >
+                <i class="ri-linkedin-box-line"></i>
+              </a>
+              <a
+                href="https://github.com/gabiro1"
+                target="_blank"
+                class="hero__social-item"
+              >
+                <i class="ri-github-line"></i>
+              </a>
+              <a
+                href="https://x.com/Jovial_GABIRO"
+                target="_blank"
+                class="hero__social-item"
+              >
+                <i class="ri-twitter-line"></i>
+              </a>
+            </ul>
+          </div>
+
+          <!--==================== HERO DETAILS ====================-->
+          <div class="hero__details">
+            <div>
+              <h3 class="hero__detail-title">BIOGRAPHY</h3>
+              <p class="hero__detail-text">
+                Hi, I'm Jovial, Web Developer ft UI & UX Designer. Passionate about creating
+                beautiful and functional web experiences.
+              </p>
+            </div>
+            <div>
+              <h3 class="hero__detail-title">CONTACT</h3>
+              <p class="hero__detail-text">
+                Kigali, Rwanda <br />
+                gabirojfleuron@gmail.com <br />
+                +250780259327 <br />
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== SKILLS SECTION ====================-->
+      <section class="expertise segment" id="skills">
+        <h2 class="segment__heading">My Expertise</h2>
+        <span class="segment__subheading"> Skills & Technologies </span>
+        <div class="expertise__wrapper container grid segment__divider">
+          <!--==================== DEVELOPMENT SKILLS ====================-->
+          <div class="expertise__category">
+            <h3 class="expertise__category-title">
+              <i class="ri-braces-line"></i> Development
+            </h3>
+            <div class="expertise__items">
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img
+                    src="assets/img/icons8-javascript-50.png"
+                    alt="JavaScript icon"
+                  />
+                </div>
+                <h3 class="expertise__name">JavaScript</h3>
+                <span class="expertise__level"> Intermediate </span>
+              </div>
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img src="assets/img/icons8-react-80.png" alt="React icon" />
+                </div>
+                <h3 class="expertise__name">React</h3>
+                <span class="expertise__level"> Intermediate </span>
+              </div>
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img
+                    src="assets/img/icons8-django-a-high-level-python-web-framework-that-encourages-rapid-development-24.png"
+                    alt="Django icon"
+                  />
+                </div>
+                <h3 class="expertise__name">Django</h3>
+                <span class="expertise__level"> Intermediate </span>
+              </div>
+
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img src="assets/img/git-icon.svg" alt="Git icon" />
+                </div>
+                <h3 class="expertise__name">Git</h3>
+                <span class="expertise__level"> Intermediate </span>
+              </div>
+            </div>
+          </div>
+
+          <!--==================== DESIGN SKILLS ====================-->
+          <div class="expertise__category">
+            <h3 class="expertise__category-title">
+              <i class="ri-palette-line"></i> Design
+            </h3>
+            <div class="expertise__items">
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img src="assets/img/icons8-figma-50.png" alt="Figma icon" />
+                </div>
+                <h3 class="expertise__name">Figma</h3>
+                <span class="expertise__level"> Advanced </span>
+              </div>
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img
+                    src="assets/img/icons8-adobe-xd-50.png"
+                    alt="Adobe XD icon"
+                  />
+                </div>
+                <h3 class="expertise__name">Adobe XD</h3>
+                <span class="expertise__level"> Intermediate </span>
+              </div>
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img src="assets/img/icons8-css-48.png" alt="CSS3 icon" />
+                </div>
+                <h3 class="expertise__name">CSS3</h3>
+                <span class="expertise__level"> Expert </span>
+              </div>
+              <div class="expertise__item">
+                <div class="expertise__icon">
+                  <img src="assets/img/icons8-html-50.png" alt="Html icon" />
+                </div>
+                <h3 class="expertise__name">Html</h3>
+                <span class="expertise__level"> Advanced </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== EDUCATION SECTION ====================-->
+      <section class="background segment" id="education">
+        <h2 class="segment__heading">My Journey</h2>
+        <span class="segment__subheading"> Education & Experience </span>
+        <div class="background__wrapper container grid segment__divider">
+          <!--==================== EDUCATION ====================-->
+          <div class="background__category">
+            <h3 class="background__category-title">
+              <i class="ri-graduation-cap-line"></i> Education
+            </h3>
+            <div class="background__items">
+              <div>
+                <h3 class="background__item-title">
+                  Bachelor of Information Technology
+                </h3>
+                <span class="background__item-institution">
+                  University of Rwanda
+                </span>
+                <span class="background__item-duration"> 2022 - 2026 </span>
+              </div>
+              <div>
+                <h3 class="background__item-title">Advanced Diploma in MCE</h3>
+                <span class="background__item-institution">
+                  College Adventist du Rwankeri
+                </span>
+                <span class="background__item-duration"> 2015 - 2021 </span>
+              </div>
+            </div>
+          </div>
+
+          <!--==================== EXPERIENCE ====================-->
+          <div class="background__category">
+            <h3 class="background__category-title">
+              <i class="ri-briefcase-line"></i> Experience
+            </h3>
+            <div class="background__items">
+              <div>
+                <h3 class="background__item-title">Frontend Developer</h3>
+                <span class="background__item-institution"> Freelances </span>
+                <span class="background__item-duration">
+                  Jan 2024 - Present
+                </span>
+              </div>
+              <div>
+                <h3 class="background__item-title">UI/UX Designer</h3>
+                <span class="background__item-institution"> Freelances </span>
+                <span class="background__item-duration">
+                  Jan 2023 - Feb 2025
+                </span>
+              </div>
+              <div>
+                <h3 class="background__item-title">Web Development Intern</h3>
+                <span class="background__item-institution"> Hb-Lab </span>
+                <span class="background__item-duration">
+                  Mar 2025 - May 2025
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <img
+          src="assets/img/shape-circle.svg"
+          alt="decoration"
+          class="background__decoration"
+        />
+      </section>
+
+      <!--==================== PROJECTS SECTION ====================-->
+      <section class="portfolio segment" id="works">
+        <h2 class="segment__heading">My Portfolio</h2>
+        <span class="segment__subheading"> Selected Works </span>
+        <div class="portfolio__container segment__divider">
+          <div class="portfolio__gallery swiper">
+            <div class="swiper-wrapper">
+              <!--==================== PROJECT 1 ====================-->
+              <div class="portfolio__item swiper-slide">
+                <img
+                  src="hblablog.png"
+                  alt="Blog Website"
+                  class="portfolio__image"
+                />
+                <div>
+                  <span class="portfolio__type"> Front end </span>
+                  <h1 class="portfolio__title">Blog Website</h1>
+                  <a
+                    href="https://github.com/gabiro1/Blog-Application.git"
+                    class="portfolio__link"
+                  >
+                    View Demo <i class="ri-arrow-right-line"></i>
+                  </a>
+                </div>
+              </div>
+              <!--==================== PROJECT 2 ====================-->
+              <div class="portfolio__item swiper-slide">
+                <img
+                  src="Plain.png"
+                  alt="Job Searching project"
+                  class="portfolio__image"
+                />
+                <div>
+                  <span class="portfolio__type"> Frontend </span>
+                  <h1 class="portfolio__title">Job Searching</h1>
+                  <a href="#" class="portfolio__link">
+                    View Demo <i class="ri-arrow-right-line"></i>
+                  </a>
+                </div>
+              </div>
+              <!--==================== PROJECT 3 ====================-->
+              <div class="portfolio__item swiper-slide">
+                <img
+                  src="smile.png"
+                  alt="Mobile app project"
+                  class="portfolio__image"
+                />
+                <div>
+                  <span class="portfolio__type"> Website </span>
+                  <h1 class="portfolio__title">SmileSchool</h1>
+                  <a href="#" class="portfolio__link">
+                    View Demo <i class="ri-arrow-right-line"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Swiper arrows -->
+            <div class="swiper-button-prev">
+              <i
+                class="ri-arrow-right-s-line"
+                style="font-size: 45px; transform: rotate(180deg)"
+              ></i>
+            </div>
+            <div class="swiper-button-next">
+              <i
+                class="ri-arrow-left-s-line"
+                style="font-size: 45px; transform: rotate(180deg)"
+              ></i>
+            </div>
+            <!-- Swiper pagination -->
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== CONTACT SECTION ====================-->
+      <section class="connect segment" id="connect">
+        <h2 class="segment__heading">Let's Connect</h2>
+        <span class="segment__subheading"> Get in touch </span>
+        <div class="connect__wrapper container grid segment__divider">
+          <div class="connect__info">
+            <h3 class="connect__info-title">
+              <i class="ri-chat-3-line"></i>
+              Get in touch
+            </h3>
+            <div class="connect__details">
+              <div class="connect__detail">
+                <span class="connect__detail-label"> Email </span>
+                <a href="mailto:jogabiro181@gmail.com" style="color: white">
+                  <span class="connect__detail-value">
+                    gabirojfleuron@gmail.com
+                  </span></a
+                >
+              </div>
+              <div class="connect__detail">
+                <span class="connect__detail-label"> WhatsApp </span>
+                <span class="connect__detail-value" style="color: white">
+                  +250780259327
+                </span>
+                <a
+                  href="https://wa.me/250780259327"
+                  target="_blank"
+                  class="connect__action"
+                >
+                  Text me <i class="ri-arrow-right-line"></i>
+                </a>
+              </div>
+              <div class="connect__detail">
+                <span class="connect__detail-label"> LinkedIn </span>
+                <span class="connect__detail-value"> </span>
+                <a
+                  href="https://www.linkedin.com/in/gabiro-jovial-fleuron-454115247"
+                  target="_blank"
+                  class="connect__action"
+                >
+                  Connect <i class="ri-arrow-right-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="connect__form-container">
+            <h3 class="connect__form-title">
+              <i class="ri-send-plane-line"></i> Have a query for me?
+            </h3>
+            <form
+              action=""
+              class="connect__form"
+              id="contact-form"
+              onsubmit="event.preventDefault(); sendMails();"
+            >
+              <div class="connect__form-group">
+                <label class="connect__form-label"> Name </label>
+                <input
+                  type="text"
+                  name="user_name"
+                  required
+                  placeholder="Your name"
+                  class="connect__form-input"
+                  id="name"
+                />
+              </div>
+              <div class="connect__form-group">
+                <label class="connect__form-label"> Email </label>
+                <input
+                  type="email"
+                  name="user_email"
+                  required
+                  placeholder="Your email"
+                  class="connect__form-input"
+                  id="email"
+                />
+              </div>
+              <div class="connect__form-group connect__form-message">
+                <label class="connect__form-label"> Message </label>
+                <textarea
+                  name="user_message"
+                  placeholder="Your message"
+                  id="message"
+                  class="connect__form-input"
+                ></textarea>
+              </div>
+              <p class="connect__form-feedback" id="contact-message"></p>
+              <button type="submit" class="connect__form-submit">
+                Send Message <i class="ri-send-plane-fill"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="page-footer">
+      <div class="page-footer__container container">
+        <h1 class="page-footer__title">
+          <a href="/">
+            <img id="logo" src="/assets/logo-white.png" alt="Jovial" />
+          </a>
+        </h1>
+        <p class="page-footer__tagline">
+          Creating digital experiences that matter
+        </p>
+        <ul class="page-footer__links">
+          <li>
+            <a href="#home" class="page-footer__link">Home</a>
+          </li>
+          <li>
+            <a href="#skills" class="page-footer__link">Skills</a>
+          </li>
+          <li>
+            <a href="#works" class="page-footer__link">Works</a>
+          </li>
+          <li>
+            <a href="#connect" class="page-footer__link">Connect</a>
+          </li>
+        </ul>
+        <ul class="page-footer__social">
+          <a
+            href="https://dribbble.com/jovial_fleuron"
+            target="_blank"
+            class="page-footer__social-item"
+          >
+            <i class="ri-dribbble-line"></i>
+          </a>
+          <a
+            href="https://www.behance.net/jovialgabiro"
+            target="_blank"
+            class="page-footer__social-item"
+          >
+            <i class="ri-behance-line"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/jovial_fleuron/"
+            target="_blank"
+            class="page-footer__social-item"
+          >
+            <i class="ri-instagram-line"></i>
+          </a>
+          <a
+            href="https://github.com/gabiro1"
+            target="_blank"
+            class="page-footer__social-item"
+          >
+            <i class="ri-github-line"></i>
+          </a>
+        </ul>
+        <span class="page-footer__copyright">
+          &copy; 2023 Jovial. All rights reserved.
+        </span>
+      </div>
+    </footer>
+
+    <!--========== SCROLL TO TOP ==========-->
+    <a href="#" class="scroll-top" id="scroll-top">
+      <i class="ri-arrow-up-line"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/main.js"></script>
+    <script>
+      function sendMails() {
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let message = document.getElementById("message").value;
+      
+        // Basic validation
+        if (!name || !email || !message) {
+          document.getElementById("contact-message").textContent = "Please fill out all fields.";
+          return;
+        }
+      
+        let parms = {
+          name: name,
+          email: email,
+          message: message,
+        };
+      
+        emailjs.send("service_nnq7n0f", "template_jpsdga8", parms).then(
+          function (response) {
+            console.log("SUCCESS!", response.status, response.text);
+            document.getElementById("contact-message").textContent = "Email sent successfully!";
+            document.getElementById("contact-message").style.color = "green";
+            
+            // Reset the form inputs after email is sent
+            document.getElementById("contact-form").reset(); 
+          },
+          function (error) {
+            console.log("FAILED...", error);
+            document.getElementById("contact-message").textContent = "Failed to send email. Please try again.";
+            document.getElementById("contact-message").style.color = "red";
+          }
+        );
+      }
+      
+    </script>
+  </body>
+</html>
