@@ -149,5 +149,34 @@ var swiper = new Swiper(".swiper", {
   }
 });
 
-/*=============== SEND EMAILS ===============*/
-// (You can place your email JS here or keep it separate)
+/*=============== SCROLL REVEAL ANIMATION ===============*/
+ScrollReveal().reveal('.segment', {
+  origin: 'bottom',
+  distance: '50px',
+  duration: 1000,
+  delay: 200,
+  reset: false
+});
+
+// Reveal hero heading and image with slight delay
+ScrollReveal().reveal('.hero__heading', { delay: 300, origin: 'left' });
+ScrollReveal().reveal('.hero__image-container', { delay: 500, origin: 'right' });
+
+// Reveal social links one by one
+ScrollReveal().reveal('.hero__social-item', {
+  interval: 200,
+  origin: 'bottom',
+  distance: '20px'
+});
+
+// Reveal skills and design blocks
+ScrollReveal().reveal('.expertise__category', {
+  interval: 300,
+  origin: 'bottom'
+});
+
+// Reveal education and experience
+ScrollReveal().reveal('.background__category', {
+  interval: 300,
+  origin: 'left'
+});
