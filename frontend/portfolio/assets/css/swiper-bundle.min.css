@@ -1,0 +1,151 @@
+/* Portfolio Section */
+.portfolio {
+  padding: 4rem;
+}
+
+.section__title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Portfolio container layout */
+.portfolio__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.portfolio__item--fixed {
+  flex: 0 0 auto;
+  width: 300px;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.portfolio__item--fixed:hover {
+  transform: translateY(-5px);
+}
+
+/* Swiper styles */
+.swiper {
+  max-width: 600px;
+}
+
+.swiper-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.swiper-slide {
+  width: 300px !important;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  margin-right: 2rem;
+}
+
+.swiper-slide:hover {
+  transform: translateY(-5px);
+}
+
+/* Swiper navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+  color: white;
+}
+
+.swiper-button-prev {
+  left: 10px;
+  position: absolute;
+}
+
+.swiper-button-next {
+  right: 10px;
+  position: absolute;
+}
+
+/* ========== RESPONSIVE ========== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .portfolio__container {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    padding: 0 1rem;
+  }
+
+  .swiper-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .portfolio__item--fixed,
+  .swiper,
+  .swiper-slide {
+    width: 100% !important;
+    max-width: 100%;
+    margin-right: 0;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .portfolio {
+    padding: 2rem 1rem;
+  }
+
+  .section__title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .portfolio__container {
+    gap: 1.5rem;
+  }
+
+  .portfolio__item--fixed,
+  .swiper,
+  .swiper-slide {
+    padding: 0.75rem;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+  }
+}

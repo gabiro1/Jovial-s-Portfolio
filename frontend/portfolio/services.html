@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assets/logo-white.png" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <title id="page-title">Services</title>
+  </head>
+  <body class="dark-theme">
+    <!--==================== TOP BAR ====================-->
+    <header class="topbar" id="topbar">
+      <nav class="navbar container">
+        <a href="/" class="navbar__brand" style="font-family: 'Stereofunk', roboto">
+          <img class="logo" src="assets/logo-white.png" alt="Logo" />
+        </a>
+        <div class="navbar__menu" id="nav-menu">
+          <ul class="navbar__items grid">
+            <li class="navbar__element">
+              <a href="/" class="navbar__url"><i class="ri-home-line"></i> Home</a>
+            </li>
+            <li class="navbar__element">
+              <a href="/skills" class="navbar__url"><i class="ri-code-line"></i> Skills</a>
+            </li>
+            <li class="navbar__element">
+              <a href="/education" class="navbar__url"><i class="ri-book-line"></i> Education</a>
+            </li>
+            <li class="navbar__element">
+              <a href="/services" class="navbar__url active-url"><i class="ri-service-line"></i> Services</a>
+            </li>
+            <li class="navbar__element">
+              <a href="/projects" class="navbar__url"><i class="ri-macbook-line"></i> Works</a>
+            </li>
+            <li class="navbar__element">
+              <a href="/connect" class="navbar__url"><i class="ri-chat-4-line"></i> Connect</a>
+            </li>
+          </ul>
+          <div class="navbar__close" id="nav-close"><i class="ri-close-line"></i></div>
+        </div>
+        <div class="navbar__actions">
+          <i class="ri-moon-line toggle-theme" id="theme-toggle"></i>
+          <div class="navbar__toggle" id="nav-toggle"><i class="ri-menu-line"></i></div>
+        </div>
+      </nav>
+    </header>
+
+    <!--==================== MAIN CONTENT ====================-->
+    <main class="content">
+      <!--==================== SERVICES SECTION ====================-->
+      <section class="services segment" id="services">
+        <h2 class="segment__heading">My Services</h2>
+        <span class="segment__subheading"> What I can do for you </span>
+        <div class="services__grid container segment__divider" id="services-grid">
+          <p class="hero__loading">Loading...</p>
+        </div>
+      </section>
+
+      <!--==================== REQUEST A SERVICE ====================-->
+      <section class="connect segment" id="request">
+        <h2 class="segment__heading">Request a Service</h2>
+        <span class="segment__subheading"> Tell me what you need </span>
+        <div class="connect__wrapper container grid segment__divider">
+          <div class="connect__info">
+            <h3 class="connect__form-title">
+              <i class="ri-chat-3-line"></i> How it works
+            </h3>
+            <p class="connect__info-text">
+              Pick a service, fill in the form and I'll get back to you within 24 hours
+              with a plan and a quote for your project.
+            </p>
+            <div class="connect__details" id="connect-details">
+              <p class="hero__loading">Loading...</p>
+            </div>
+          </div>
+          <div class="connect__form-container">
+            <h3 class="connect__form-title">
+              <i class="ri-send-plane-line"></i> Request form
+            </h3>
+            <form action="" class="connect__form" id="service-request-form">
+              <div class="connect__form-group">
+                <label class="connect__form-label"> Full name </label>
+                <input type="text" id="sr-name" required placeholder="Your name" class="connect__form-input" />
+              </div>
+              <div class="connect__form-group">
+                <label class="connect__form-label"> Email </label>
+                <input type="email" id="sr-email" required placeholder="Your email" class="connect__form-input" />
+              </div>
+              <div class="connect__form-group">
+                <label class="connect__form-label"> Phone (optional) </label>
+                <input type="tel" id="sr-phone" placeholder="+250..." class="connect__form-input" />
+              </div>
+              <div class="connect__form-group">
+                <label class="connect__form-label"> Service you need </label>
+                <select id="sr-service" required class="connect__form-input">
+                  <option value="" disabled selected>Choose a service...</option>
+                </select>
+              </div>
+              <div class="connect__form-group connect__form-message">
+                <label class="connect__form-label"> Message </label>
+                <textarea id="sr-message" placeholder="Describe your project..." class="connect__form-input"></textarea>
+              </div>
+              <p class="connect__form-feedback" id="sr-feedback"></p>
+              <button type="submit" class="connect__form-submit" id="sr-submit-btn">
+                Send request <i class="ri-send-plane-fill"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="page-footer">
+      <div class="page-footer__container container">
+        <h1 class="page-footer__title">
+          <a href="/"><img class="logo" src="assets/logo-white.png" alt="Logo" /></a>
+        </h1>
+        <p class="page-footer__tagline" id="footer-tagline">Creating digital experiences that matter</p>
+        <ul class="page-footer__links">
+          <li><a href="/" class="page-footer__link">Home</a></li>
+          <li><a href="/skills" class="page-footer__link">Skills</a></li>
+          <li><a href="/education" class="page-footer__link">Education</a></li>
+          <li><a href="/services" class="page-footer__link">Services</a></li>
+          <li><a href="/projects" class="page-footer__link">Works</a></li>
+          <li><a href="/connect" class="page-footer__link">Connect</a></li>
+        </ul>
+        <ul class="page-footer__social" id="footer-social"></ul>
+        <span class="page-footer__copyright" id="copyright-text"></span>
+      </div>
+    </footer>
+
+    <a href="#" class="scroll-top" id="scroll-top"><i class="ri-arrow-up-line"></i></a>
+    <script src="assets/js/services.js"></script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/portfolio/index.html" },
+    { "source": "/skills", "destination": "/portfolio/skills.html" },
+    { "source": "/education", "destination": "/portfolio/education.html" },
+    { "source": "/services", "destination": "/portfolio/services.html" },
+    { "source": "/connect", "destination": "/portfolio/connect.html" },
+    { "source": "/projects", "destination": "/portfolio/projects.html" },
+    { "source": "/projects/:id", "destination": "/portfolio/project.html" },
+    { "source": "/assets/:path*", "destination": "/portfolio/assets/:path*" },
+    {
+      "source": "/api/:path*",
+      "destination": "https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com/uploads/:path*"
+    }
+  ]
+}

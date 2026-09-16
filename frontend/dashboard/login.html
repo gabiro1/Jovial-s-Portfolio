@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="css/dashboard.css" rel="stylesheet" />
+</head>
+<body>
+  <main class="login">
+    <div class="login__card">
+      <div class="login__brand">
+        <img class="logo" src="/assets/logo-white.png" alt="Logo" />
+      </div>
+      <h1 class="login__title">Admin Dashboard</h1>
+      <p class="login__subtitle">Sign in to manage your portfolio</p>
+
+      <p class="login__error" id="login-error"></p>
+
+      <form id="login-form">
+        <label class="login__label" for="email">Email</label>
+        <input class="login__input" type="email" id="email" name="email" placeholder="admin@portfolio.com" required />
+
+        <label class="login__label" for="password">Password</label>
+        <input class="login__input" type="password" id="password" name="password" placeholder="••••••••" required />
+
+        <button class="login__submit" type="submit" id="login-btn">
+          <i class="ri-login-box-line"></i> Sign In
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
