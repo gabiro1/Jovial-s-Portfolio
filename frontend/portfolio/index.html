@@ -1,395 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Portfolio</title>
+<meta name="description" content="Portfolio — software developer exploring systems, infrastructure and security.">
+<link rel="shortcut icon" href="assets/logo-white.png" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portfolio.css">
+</head>
+<body>
 
-    <!--=============== FAVICON ===============-->
-    <link rel="shortcut icon" href="assets/logo-white.png" type="image/x-icon" />
+<header id="site-header">
+  <nav class="wrap">
+    <a href="#home" class="logo" id="nav-brand">PORTFOLIO.</a>
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="#home" class="nav-link active"><i class="ri-home-line"></i><span>Home</span></a></li>
+      <li><a href="#about" class="nav-link"><i class="ri-user-line"></i><span>About</span></a></li>
+      <li><a href="#projects" class="nav-link"><i class="ri-macbook-line"></i><span>Projects</span></a></li>
+      <li><a href="#skills" class="nav-link"><i class="ri-code-line"></i><span>Skills</span></a></li>
+      <li><a href="#services" class="nav-link"><i class="ri-service-line"></i><span>Services</span></a></li>
+      <li><a href="#experience" class="nav-link"><i class="ri-briefcase-line"></i><span>Experience</span></a></li>
+      <li><a href="#contact" class="nav-link"><i class="ri-chat-4-line"></i><span>Contact</span></a></li>
+      <li class="nav-close-li"><button type="button" class="nav-close" id="nav-close" aria-label="Close menu"><i class="ri-close-line"></i></button></li>
+    </ul>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme"><i class="ri-sun-line"></i></button>
+      <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false"><i class="ri-menu-line"></i></button>
+    </div>
+  </nav>
+</header>
 
-    <!--=============== REMIXICONS ===============-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
+<section class="hero" id="home">
+  <div class="hero-beams" id="hero-beams">
+    <svg id="beam-svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+      <g id="beam-group" stroke-width="1"></g>
+    </svg>
+  </div>
+  <div class="hero-vignette"></div>
+  <div class="wrap hero-content">
+    <p class="hero-greeting" id="hero-greeting"><span class="dot"></span>Hello, I'm</p>
+    <h1 class="hero-name" id="hero-name">Portfolio</h1>
+    <p class="hero-role" id="hero-role"></p>
+    <p class="hero-desc" id="hero-desc"></p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-secondary">Let's Connect</a>
+      <a href="#" class="btn btn-secondary" id="hero-resume" style="display:none">Download CV</a>
+    </div>
+    <div class="hero-status"><span class="pulse"></span><span id="hero-status-text">Open to new opportunities</span></div>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
 
-    <!-- ============= Scroll reveal ============== -->
-    <script src="https://unpkg.com/scrollreveal"></script>
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <h2 class="reveal">About Me</h2>
+    <div class="about-body">
+      <div id="about-body"><p class="loading reveal">Loading...</p></div>
+      <ul class="focus-list reveal" id="about-focus"></ul>
+    </div>
+  </div>
+</section>
 
-    <!--=============== GOOGLE FONTS (Poppins) ===============-->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="assets/css/styles.css" />
-
-    <title id="page-title">Portfolio</title>
-  </head>
-  <body class="dark-theme">
-    <!--==================== TOP BAR ====================-->
-    <header class="topbar" id="topbar">
-      <nav class="navbar container">
-        <a
-          href="/"
-          class="navbar__brand"
-          style="font-family: 'Stereofunk', roboto"
-        >
-          <img class="logo" src="assets/logo-white.png" alt="Logo" />
-        </a>
-        <div class="navbar__menu" id="nav-menu">
-          <ul class="navbar__items grid">
-            <li class="navbar__element">
-              <a href="/" class="navbar__url active-url">
-                <i class="ri-home-line"></i> Home
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/skills" class="navbar__url">
-                <i class="ri-code-line"></i> Skills
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/education" class="navbar__url">
-                <i class="ri-book-line"></i> Education
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/services" class="navbar__url">
-                <i class="ri-service-line"></i> Services
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/projects" class="navbar__url">
-                <i class="ri-macbook-line"></i> Works
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/connect" class="navbar__url">
-                <i class="ri-chat-4-line"></i> Connect
-              </a>
-            </li>
-          </ul>
-
-          <!-- Close button -->
-          <div class="navbar__close" id="nav-close">
-            <i class="ri-close-line"></i>
-          </div>
-        </div>
-
-        <div class="navbar__actions">
-          <!-- Theme change button -->
-          <i class="ri-moon-line toggle-theme" id="theme-toggle"></i>
-
-          <!-- Toggle button -->
-          <div class="navbar__toggle" id="nav-toggle">
-            <i class="ri-menu-line"></i>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <!--==================== MAIN CONTENT ====================-->
-    <main class="content">
-      <!--==================== HERO SECTION ====================-->
-      <section class="hero segment" id="home">
-        <div class="hero__wrapper container grid segment__divider">
-          <div class="hero__content grid">
-            <h1 class="hero__heading" id="hero-heading">
-              <span class="hero__loading">Loading...</span>
-            </h1>
-            <div class="hero__image-container grid">
-              <div class="hero__profile">
-                <img id="hero-profile-image" src="" alt="profile photo" />
-              </div>
-              <img
-                src="assets/img/shape-wawes.svg"
-                alt=""
-                class="hero__wave-shape"
-              />
-              <img
-                src="assets/img/shape-circle.svg"
-                alt=""
-                class="hero__circle-shape"
-              />
-            </div>
-            <ul class="hero__social-links" id="hero-social-links">
-              <li class="hero__social-loading">Loading...</li>
-            </ul>
-          </div>
-
-          <!--==================== HERO DETAILS ====================-->
-          <div class="hero__details">
-            <div>
-              <h3 class="hero__detail-title">BIOGRAPHY</h3>
-              <p class="hero__detail-text" id="hero-about">
-                Loading...
-              </p>
-            </div>
-            <div>
-              <h3 class="hero__detail-title">CONTACT</h3>
-              <p class="hero__detail-text" id="hero-contact">
-                Loading...
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!--==================== SKILLS SECTION ====================-->
-      <section class="expertise segment" id="skills">
-        <h2 class="segment__heading">My Expertise</h2>
-        <span class="segment__subheading"> Skills & Technologies </span>
-        <div class="expertise__wrapper container grid segment__divider">
-          <!--==================== DEVELOPMENT SKILLS ====================-->
-          <div class="expertise__category">
-            <h3 class="expertise__category-title">
-              <i class="ri-braces-line"></i> Development
-            </h3>
-            <div class="expertise__items">
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-javascript-50.png" alt="JavaScript icon" />
-                </div>
-                <h3 class="expertise__name">JavaScript</h3>
-                <span class="expertise__level"> Intermediate </span>
-              </div>
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-react-80.png" alt="React icon" />
-                </div>
-                <h3 class="expertise__name">React</h3>
-                <span class="expertise__level"> Intermediate </span>
-              </div>
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-django-a-high-level-python-web-framework-that-encourages-rapid-development-24.png" alt="Django icon" />
-                </div>
-                <h3 class="expertise__name">Django</h3>
-                <span class="expertise__level"> Intermediate </span>
-              </div>
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/git-icon.svg" alt="Git icon" />
-                </div>
-                <h3 class="expertise__name">Git</h3>
-                <span class="expertise__level"> Intermediate </span>
-              </div>
-            </div>
-          </div>
-
-          <!--==================== DESIGN SKILLS ====================-->
-          <div class="expertise__category">
-            <h3 class="expertise__category-title">
-              <i class="ri-palette-line"></i> Design
-            </h3>
-            <div class="expertise__items">
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-figma-50.png" alt="Figma icon" />
-                </div>
-                <h3 class="expertise__name">Figma</h3>
-                <span class="expertise__level"> Advanced </span>
-              </div>
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-adobe-xd-50.png" alt="Adobe XD icon" />
-                </div>
-                <h3 class="expertise__name">Adobe XD</h3>
-                <span class="expertise__level"> Intermediate </span>
-              </div>
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-css-48.png" alt="CSS3 icon" />
-                </div>
-                <h3 class="expertise__name">CSS3</h3>
-                <span class="expertise__level"> Expert </span>
-              </div>
-              <div class="expertise__item">
-                <div class="expertise__icon">
-                  <img src="assets/img/icons8-html-50.png" alt="Html icon" />
-                </div>
-                <h3 class="expertise__name">Html</h3>
-                <span class="expertise__level"> Advanced </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!--==================== EDUCATION SECTION ====================-->
-      <section class="background segment" id="education">
-        <h2 class="segment__heading">My Journey</h2>
-        <span class="segment__subheading"> Education & Experience </span>
-        <div class="background__wrapper container grid segment__divider">
-          <!--==================== EDUCATION ====================-->
-          <div class="background__category">
-            <h3 class="background__category-title">
-              <i class="ri-graduation-cap-line"></i> Education
-            </h3>
-            <div class="background__items">
-              <div>
-                <h3 class="background__item-title">Bachelor of Information Technology</h3>
-                <span class="background__item-institution">University of Rwanda</span>
-                <span class="background__item-duration"> 2022 - 2026 </span>
-              </div>
-              <div>
-                <h3 class="background__item-title">Advanced Diploma in MCE</h3>
-                <span class="background__item-institution">College Adventist du Rwankeri</span>
-                <span class="background__item-duration"> 2015 - 2021 </span>
-              </div>
-            </div>
-          </div>
-
-          <!--==================== EXPERIENCE ====================-->
-          <div class="background__category">
-            <h3 class="background__category-title">
-              <i class="ri-briefcase-line"></i> Experience
-            </h3>
-            <div class="background__items">
-              <div>
-                <h3 class="background__item-title">Frontend Developer</h3>
-                <span class="background__item-institution"> Freelances </span>
-                <span class="background__item-duration"> Jan 2024 - Present </span>
-              </div>
-              <div>
-                <h3 class="background__item-title">UI/UX Designer</h3>
-                <span class="background__item-institution"> Freelances </span>
-                <span class="background__item-duration"> Jan 2023 - Feb 2025 </span>
-              </div>
-              <div>
-                <h3 class="background__item-title">Web Development Intern</h3>
-                <span class="background__item-institution"> Hb-Lab </span>
-                <span class="background__item-duration"> Mar 2025 - May 2025 </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <img
-          src="assets/img/shape-circle.svg"
-          alt="decoration"
-          class="background__decoration"
-        />
-      </section>
-
-      <!--==================== PROJECTS SECTION ====================-->
-      <section class="portfolio segment" id="works">
-        <h2 class="segment__heading">My Portfolio</h2>
-        <span class="segment__subheading"> Selected Works </span>
-        <div class="portfolio__wrapper segment__divider">
-          <div class="projects-grid" id="project-grid">
-            <p class="hero__loading">Loading...</p>
-          </div>
-          <a href="/projects" class="projects-viewall">View All Projects <i class="ri-arrow-right-line"></i></a>
-        </div>
-      </section>
-
-      <!--==================== CONNECT SECTION ====================-->
-      <section class="connect segment" id="connect">
-        <h2 class="segment__heading">Let's Connect</h2>
-        <span class="segment__subheading"> Get in touch </span>
-        <div class="connect__wrapper container grid segment__divider">
-          <div class="connect__info">
-            <h3 class="connect__info-title">
-              <i class="ri-chat-3-line"></i> Get in touch
-            </h3>
-            <div class="connect__details" id="connect-details">
-              <p class="hero__loading">Loading...</p>
-            </div>
-          </div>
-          <div class="connect__form-container">
-            <h3 class="connect__form-title">
-              <i class="ri-send-plane-line"></i> Have a query for me?
-            </h3>
-            <form
-              action=""
-              class="connect__form"
-              id="contact-form"
-              onsubmit="event.preventDefault(); submitContact();"
-            >
-              <div class="connect__form-group">
-                <label class="connect__form-label"> Name </label>
-                <input
-                  type="text"
-                  name="user_name"
-                  required
-                  placeholder="Your name"
-                  class="connect__form-input"
-                  id="name"
-                />
-              </div>
-              <div class="connect__form-group">
-                <label class="connect__form-label"> Email </label>
-                <input
-                  type="email"
-                  name="user_email"
-                  required
-                  placeholder="Your email"
-                  class="connect__form-input"
-                  id="email"
-                />
-              </div>
-              <div class="connect__form-group connect__form-message">
-                <label class="connect__form-label"> Message </label>
-                <textarea
-                  name="user_message"
-                  placeholder="Your message"
-                  id="message"
-                  class="connect__form-input"
-                ></textarea>
-              </div>
-              <p class="connect__form-feedback" id="contact-message"></p>
-              <button type="submit" class="connect__form-submit" id="contact-submit-btn">
-                Send <i class="ri-send-plane-fill"></i>
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!--==================== FOOTER ====================-->
-    <footer class="page-footer">
-      <div class="page-footer__container container">
-        <h1 class="page-footer__title">
-          <a href="/">
-            <img class="logo" src="assets/logo-white.png" alt="Logo" />
-          </a>
-        </h1>
-        <p class="page-footer__tagline" id="footer-tagline">
-          Creating digital experiences that matter
-        </p>
-        <ul class="page-footer__links">
-          <li>
-            <a href="/" class="page-footer__link">Home</a>
-          </li>
-          <li>
-            <a href="/skills" class="page-footer__link">Skills</a>
-          </li>
-          <li>
-            <a href="/education" class="page-footer__link">Education</a>
-          </li>
-          <li>
-            <a href="/services" class="page-footer__link">Services</a>
-          </li>
-          <li>
-            <a href="/projects" class="page-footer__link">Works</a>
-          </li>
-          <li>
-            <a href="/connect" class="page-footer__link">Connect</a>
-          </li>
-        </ul>
-        <ul class="page-footer__social" id="footer-social">
-        </ul>
-        <span class="page-footer__copyright" id="copyright-text"></span>
+<section class="projects" id="projects">
+  <div class="wrap">
+    <div class="projects-head reveal">
+      <span class="eyebrow">Selected Work</span>
+      <h2>Projects I've Built</h2>
+      <p class="projects-sub">A selection of products, platforms, and technical projects I've designed and developed.</p>
+    </div>
+    <div class="projects-toolbar reveal">
+      <div class="layout-switch" role="group" aria-label="Project layout">
+        <button type="button" class="layout-btn is-active" data-layout="grid" aria-pressed="true" aria-label="Grid view"><i class="ri-grid-fill" aria-hidden="true"></i><span>Grid</span></button>
+        <button type="button" class="layout-btn" data-layout="list" aria-pressed="false" aria-label="List view"><i class="ri-list-check" aria-hidden="true"></i><span>List</span></button>
+        <button type="button" class="layout-btn" data-layout="stack" aria-pressed="false" aria-label="Stack view"><i class="ri-stack-line" aria-hidden="true"></i><span>Stack</span></button>
       </div>
-    </footer>
+    </div>
+    <div class="project-browser" id="project-browser" data-layout="grid">
+      <p class="loading">Loading projects...</p>
+    </div>
+  </div>
+</section>
 
-    <!--========== SCROLL TO TOP ==========-->
-    <a href="#" class="scroll-top" id="scroll-top">
-      <i class="ri-arrow-up-line"></i>
-    </a>
+<section class="skills" id="skills">
+  <div class="wrap">
+    <h2 class="skills-heading reveal">My Expertise</h2>
+    <span class="skills-subheading reveal">Skills &amp; Technologies</span>
+    <div class="skill-groups reveal" id="skill-groups"><p class="loading">Loading skills...</p></div>
+  </div>
+</section>
 
-    <!--=============== MAIN JS ===============-->
-    <script src="assets/js/main.js"></script>
-  </body>
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Services</h2>
+      <span class="section-num">how I can help</span>
+    </div>
+    <div class="service-grid reveal" id="service-grid"><p class="loading">Loading services...</p></div>
+  </div>
+</section>
+
+<section class="experience" id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Experience &amp; Journey</h2>
+      <span class="section-num">education &amp; milestones</span>
+    </div>
+    <div class="timeline" id="timeline"><p class="loading">Loading...</p></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <div class="reveal contact-aside">
+        <h2>Let's build something meaningful.</h2>
+        <p class="contact-intro" id="contact-intro">Have a project, an opportunity, or just a technical problem worth discussing? I'd like to hear about it.</p>
+      </div>
+      <div class="reveal">
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="name-field">Name</label>
+              <input type="text" id="name-field" name="name" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="email-field">Email</label>
+              <input type="email" id="email-field" name="email" required autocomplete="email">
+            </div>
+          </div>
+          <div class="field">
+            <label for="service-field">What do you need?</label>
+            <select id="service-field" name="service">
+              <option value="General inquiry">General inquiry</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message-field">Message</label>
+            <textarea id="message-field" name="message" required></textarea>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary" id="contact-submit">Send message</button>
+            <span class="form-note"></span>
+          </div>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <p class="footer-brand" id="footer-brand">Portfolio</p>
+      <p class="footer-desc" id="footer-desc"></p>
+    </div>
+    <div class="footer-social" id="footer-social"></div>
+    <p class="footer-copy" id="footer-copy"></p>
+  </div>
+</footer>
+
+<div class="project-modal" id="project-modal" hidden>
+  <div class="project-modal__backdrop" data-close></div>
+  <div class="project-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" tabindex="-1">
+    <button type="button" class="project-modal__close" data-close aria-label="Close project details"><i class="ri-close-line" aria-hidden="true"></i></button>
+    <div class="project-modal__media" id="project-modal-media"></div>
+    <div class="project-modal__body">
+      <h2 class="project-modal__title" id="project-modal-title"></h2>
+      <p class="project-modal__desc" id="project-modal-desc"></p>
+      <div class="project-modal__tech" id="project-modal-tech"></div>
+      <div class="project-modal__actions" id="project-modal-actions"></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/projects.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
 </html>

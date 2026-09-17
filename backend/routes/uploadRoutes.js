@@ -10,4 +10,10 @@ router.post('/image', protect, upload.single('image'), (req, res) => {
   res.status(201).json({ url: '/uploads/' + req.file.filename });
 });
 
+// Upload a resume / CV file
+router.post('/resume', protect, upload.single('resume'), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+  res.status(201).json({ url: '/uploads/' + req.file.filename });
+});
+
 module.exports = router;

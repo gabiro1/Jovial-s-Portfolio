@@ -1,129 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/">
+<title id="page-title">Project</title>
+<meta name="description" content="Project details.">
+<link rel="shortcut icon" href="assets/logo-white.png" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portfolio.css">
+</head>
+<body>
 
-    <!--=============== FAVICON ===============-->
-    <link rel="shortcut icon" href="assets/logo-white.png" type="image/x-icon" />
+<header id="site-header">
+  <nav class="wrap">
+    <a href="/" class="logo" id="nav-brand">PORTFOLIO.</a>
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="/#home" class="nav-link"><i class="ri-home-line"></i><span>Home</span></a></li>
+      <li><a href="/#about" class="nav-link"><i class="ri-user-line"></i><span>About</span></a></li>
+      <li><a href="/#projects" class="nav-link active"><i class="ri-macbook-line"></i><span>Projects</span></a></li>
+      <li><a href="/#skills" class="nav-link"><i class="ri-code-line"></i><span>Skills</span></a></li>
+      <li><a href="/#services" class="nav-link"><i class="ri-service-line"></i><span>Services</span></a></li>
+      <li><a href="/#experience" class="nav-link"><i class="ri-briefcase-line"></i><span>Experience</span></a></li>
+      <li><a href="/#contact" class="nav-link"><i class="ri-chat-4-line"></i><span>Contact</span></a></li>
+      <li class="nav-close-li"><button type="button" class="nav-close" id="nav-close" aria-label="Close menu"><i class="ri-close-line"></i></button></li>
+    </ul>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme"><i class="ri-sun-line"></i></button>
+      <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false"><i class="ri-menu-line"></i></button>
+    </div>
+  </nav>
+</header>
 
-    <!--=============== REMIXICONS ===============-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
+<main class="project-page" id="project-detail">
+  <div class="wrap">
+    <div class="project-detail-inner">
+      <a href="/#projects" class="project-back" id="project-back"><i class="ri-arrow-left-line"></i> Back to projects</a>
+      <div id="project-content"><p class="loading">Loading project...</p></div>
+    </div>
+  </div>
+</main>
 
-    <!-- ============= Scroll reveal ============== -->
-    <script src="https://unpkg.com/scrollreveal"></script>
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <p class="footer-brand" id="footer-brand">Portfolio</p>
+      <p class="footer-desc" id="footer-desc"></p>
+    </div>
+    <div class="footer-social" id="footer-social"></div>
+    <p class="footer-copy" id="footer-copy"></p>
+  </div>
+</footer>
 
-    <!--=============== GOOGLE FONTS (Poppins) ===============-->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="assets/css/styles.css" />
-
-    <title id="page-title">Project</title>
-  </head>
-  <body class="dark-theme">
-    <!--==================== TOP BAR ====================-->
-    <header class="topbar" id="topbar">
-      <nav class="navbar container">
-        <a href="/" class="navbar__brand" style="font-family: 'Stereofunk', roboto">
-          <img class="logo" src="assets/logo-white.png" alt="Logo" />
-        </a>
-        <div class="navbar__menu" id="nav-menu">
-          <ul class="navbar__items grid">
-            <li class="navbar__element">
-              <a href="/#home" class="navbar__url">
-                <i class="ri-home-line"></i> Home
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/skills" class="navbar__url">
-                <i class="ri-code-line"></i> Skills
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/education" class="navbar__url">
-                <i class="ri-book-line"></i> Education
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/services" class="navbar__url">
-                <i class="ri-service-line"></i> Services
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/projects" class="navbar__url active-url">
-                <i class="ri-macbook-line"></i> Works
-              </a>
-            </li>
-            <li class="navbar__element">
-              <a href="/connect" class="navbar__url">
-                <i class="ri-chat-4-line"></i> Connect
-              </a>
-            </li>
-          </ul>
-
-          <!-- Close button -->
-          <div class="navbar__close" id="nav-close">
-            <i class="ri-close-line"></i>
-          </div>
-        </div>
-
-        <div class="navbar__actions">
-          <!-- Theme change button -->
-          <i class="ri-moon-line toggle-theme" id="theme-toggle"></i>
-
-          <!-- Toggle button -->
-          <div class="navbar__toggle" id="nav-toggle">
-            <i class="ri-menu-line"></i>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <!--==================== MAIN CONTENT ====================-->
-    <main class="project-detail" id="project-detail">
-      <div class="project-detail__wrap container">
-        <a href="/projects" class="project-detail__back">
-          <i class="ri-arrow-left-s-line"></i> Back to Projects
-        </a>
-        <div class="project-detail__loading">Loading project...</div>
-      </div>
-    </main>
-
-    <!--==================== FOOTER ====================-->
-    <footer class="page-footer">
-      <div class="page-footer__container container">
-        <h1 class="page-footer__title">
-          <a href="/">
-            <img class="logo" src="assets/logo-white.png" alt="Logo" />
-          </a>
-        </h1>
-        <p class="page-footer__tagline" id="footer-tagline">
-          Creating digital experiences that matter
-        </p>
-        <ul class="page-footer__links">
-          <li><a href="/" class="page-footer__link">Home</a></li>
-          <li><a href="/skills" class="page-footer__link">Skills</a></li>
-          <li><a href="/education" class="page-footer__link">Education</a></li>
-          <li><a href="/services" class="page-footer__link">Services</a></li>
-          <li><a href="/projects" class="page-footer__link">Works</a></li>
-          <li><a href="/connect" class="page-footer__link">Connect</a></li>
-        </ul>
-        <ul class="page-footer__social" id="footer-social"></ul>
-        <span class="page-footer__copyright" id="copyright-text"></span>
-      </div>
-    </footer>
-
-    <!--========== SCROLL TO TOP ==========-->
-    <a href="#" class="scroll-top" id="scroll-top">
-      <i class="ri-arrow-up-line"></i>
-    </a>
-
-    <!--=============== PROJECT DETAIL JS ===============-->
-    <script src="assets/js/project.js"></script>
-  </body>
+<script src="assets/js/project.js"></script>
+</body>
 </html>

@@ -11,6 +11,7 @@ const bioSchema = new mongoose.Schema({
   whatsapp: { type: String, default: '' },
   profileImage: { type: String, default: '' },
   resumeUrl: { type: String, default: '' },
+  resumeFile: { type: String, default: '' },
   greeting: { type: String, default: "Hi, I'm" }
 }, { timestamps: true });
 

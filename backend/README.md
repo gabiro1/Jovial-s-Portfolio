@@ -5,7 +5,7 @@ Dynamic backend for the portfolio built with **Node.js (Express.js) + JavaScript
 ## Features
 
 - **Dynamic portfolio** — all content (bio, skills, projects, experience, education, social links) is served from MongoDB
-- **Admin dashboard** — manage every piece of content from `/dashboard`, same UI style (Poppins, dark theme, blue–gray palette)
+- **Admin dashboard** — manage every piece of content from `/dashboard`, using the same design language as the portfolio (Space Grotesk + Inter, monochrome black/white, minimal borders)
 - **Contact messages** — form submissions are saved to the database and shown in the dashboard
 - **Protected API** — JWT auth, only the admin can create/update/delete content
 - **File uploads** — profile photo, project screenshots, skill icons (Multer)

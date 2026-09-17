@@ -1,11 +1,14 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/portfolio/index.html" },
-    { "source": "/skills", "destination": "/portfolio/skills.html" },
-    { "source": "/education", "destination": "/portfolio/education.html" },
-    { "source": "/services", "destination": "/portfolio/services.html" },
-    { "source": "/connect", "destination": "/portfolio/connect.html" },
-    { "source": "/projects", "destination": "/portfolio/projects.html" },
+    { "source": "/dashboard", "destination": "/dashboard/index.html" },
+    { "source": "/dashboard/login", "destination": "/dashboard/login.html" },
+    { "source": "/admin", "destination": "/dashboard/index.html" },
+    { "source": "/skills", "destination": "/portfolio/index.html" },
+    { "source": "/education", "destination": "/portfolio/index.html" },
+    { "source": "/services", "destination": "/portfolio/index.html" },
+    { "source": "/connect", "destination": "/portfolio/index.html" },
+    { "source": "/projects", "destination": "/portfolio/index.html" },
     { "source": "/projects/:id", "destination": "/portfolio/project.html" },
     { "source": "/assets/:path*", "destination": "/portfolio/assets/:path*" },
 {

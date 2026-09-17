@@ -47,7 +47,28 @@
         formField('Email', 'bio-email', 'email', bio.email) +
         formField('Phone', 'bio-phone', 'text', bio.phone) +
         formField('WhatsApp (international format)', 'bio-whatsapp', 'text', bio.whatsapp, 'e.g. +250780259327') +
-        formField('Resume URL', 'bio-resume', 'text', bio.resumeUrl, 'Optional link to your CV') +
+
+        '<div class="form-group form-group--full">' +
+        '<label class="form-label">Resume / CV</label>' +
+        '<div class="seg">' +
+        '<button type="button" class="seg__btn" data-resume-mode="link">Use a link</button>' +
+        '<button type="button" class="seg__btn" data-resume-mode="upload">Upload from PC</button>' +
+        '</div>' +
+        '<div class="resume-field" id="resume-link-field">' +
+        '<input class="form-input" type="text" id="bio-resume" placeholder="https://example.com/your-cv.pdf" value="' + window.escapeHtml(bio.resumeUrl || '') + '" />' +
+        '<span class="form-hint">Paste a link to your CV hosted online (Google Drive, Dropbox, etc).</span>' +
+        '</div>' +
+        '<div class="resume-field" id="resume-upload-field" style="display:none">' +
+        '<div class="resume-file" id="resume-file-box">' +
+        '<div class="resume-file__icon"><i class="ri-file-pdf-line"></i></div>' +
+        '<div class="resume-file__meta">' +
+        '<span class="resume-file__name" id="resume-file-name">' + (bio.resumeFile ? window.escapeHtml(bio.resumeFile.split('/').pop()) : 'No file uploaded') + '</span>' +
+        '<span class="form-hint">PDF file, up to 5 MB. The Download CV button will appear on the landing page.</span>' +
+        '</div>' +
+        '</div>' +
+        '<input type="file" class="form-input" id="bio-resume-file" accept=".pdf,application/pdf" style="margin-top:.5rem" />' +
+        '<button type="button" class="btn btn--sm btn--danger" id="resume-remove" style="' + (bio.resumeFile ? 'display:inline-flex' : 'display:none') + ';margin-top:.6rem"><i class="ri-delete-bin-line"></i> Remove</button>' +
+        '</div>' +
 
         '<div class="form-group form-group--full">' +
         '<label class="form-label">Profile photo</label>' +
@@ -82,6 +103,49 @@
         }
       });
 
+      // Resume mode toggle
+      const segBtns = document.querySelectorAll('.seg__btn[data-resume-mode]');
+      const resumeLinkField = document.getElementById('resume-link-field');
+      const resumeUploadField = document.getElementById('resume-upload-field');
+      const resumeFileInput = document.getElementById('bio-resume-file');
+      const resumeFileName = document.getElementById('resume-file-name');
+      const resumeFileBox = document.getElementById('resume-file-box');
+      const resumeRemove = document.getElementById('resume-remove');
+      let resumeMode = bio.resumeFile ? 'upload' : 'link';
+      let resumeFileValue = bio.resumeFile || '';
+
+      function refreshResumeFileUI() {
+        const hasFile = !!resumeFileValue;
+        resumeFileName.textContent = hasFile ? resumeFileValue.split('/').pop() : 'No file uploaded';
+        resumeRemove.style.display = hasFile ? 'inline-flex' : 'none';
+        resumeFileBox.classList.toggle('resume-file--green', hasFile);
+      }
+
+      function applyResumeMode(mode) {
+        resumeMode = mode;
+        segBtns.forEach((b) => b.classList.toggle('active', b.dataset.resumeMode === mode));
+        resumeLinkField.style.display = mode === 'link' ? 'block' : 'none';
+        resumeUploadField.style.display = mode === 'upload' ? 'block' : 'none';
+      }
+      applyResumeMode(resumeMode);
+      refreshResumeFileUI();
+      segBtns.forEach((b) => b.addEventListener('click', () => applyResumeMode(b.dataset.resumeMode)));
+
+      resumeFileInput.addEventListener('change', () => {
+        if (resumeFileInput.files && resumeFileInput.files[0]) {
+          resumeFileName.textContent = resumeFileInput.files[0].name;
+          resumeFileBox.classList.add('resume-file--green');
+        }
+      });
+
+      resumeRemove.addEventListener('click', () => {
+        resumeFileValue = '';
+        resumeFileInput.value = '';
+        resumeFileName.textContent = 'No file uploaded';
+        resumeFileBox.classList.remove('resume-file--green');
+        resumeRemove.style.display = 'none';
+      });
+
       // Submit
       document.getElementById('bio-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -97,12 +161,26 @@
             .filter((l) => l.length > 0);
 
           let profileImage = bio.profileImage;
+          let resumeFile = resumeFileValue;
+          let resumeUrl = document.getElementById('bio-resume').value.trim();
 
           if (fileInput.files && fileInput.files[0]) {
             const uploaded = await PortfolioAPI.postForm(
               '/api/upload/image', 'image', fileInput.files[0]
             );
             profileImage = uploaded.url;
+          }
+
+          if (resumeMode === 'upload') {
+            if (resumeFileInput.files && resumeFileInput.files[0]) {
+              const uploaded = await PortfolioAPI.postForm(
+                '/api/upload/resume', 'resume', resumeFileInput.files[0]
+              );
+              resumeFile = uploaded.url;
+            }
+            resumeUrl = '';
+          } else {
+            resumeFile = '';
           }
 
           const payload = {
@@ -115,7 +193,8 @@
             email: document.getElementById('bio-email').value.trim(),
             phone: document.getElementById('bio-phone').value.trim(),
             whatsapp: document.getElementById('bio-whatsapp').value.trim(),
-            resumeUrl: document.getElementById('bio-resume').value.trim(),
+            resumeUrl,
+            resumeFile,
             profileImage
           };
 

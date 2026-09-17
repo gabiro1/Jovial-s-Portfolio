@@ -9,339 +9,601 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
-/*=============== DYNAMIC PORTFOLIO DATA ===============*/
+function api(path) {
+  return fetch(path, { headers: { Accept: 'application/json' } }).then((res) => {
+    if (!res.ok) throw new Error(path + ' -> ' + res.status);
+    return res.json();
+  });
+}
 
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value || '';
+}
+
+/*=============== LOAD ALL BACKEND DATA ===============*/
 async function loadPortfolio() {
   try {
-    const [bio, projects, socialLinks] =
+    const [bio, projects, skills, services, experience, education, socialLinks] =
       await Promise.all([
-        fetch('/api/bio').then((r) => r.json()),
-        fetch('/api/projects/featured').then((r) => r.json()),
-        fetch('/api/social-links').then((r) => r.json())
+        api('/api/bio').catch(() => null),
+        api('/api/projects').catch(() => null),
+        api('/api/skills').catch(() => null),
+        api('/api/services').catch(() => null),
+        api('/api/experience').catch(() => null),
+        api('/api/education').catch(() => null),
+        api('/api/social-links').catch(() => null)
       ]);
 
-    renderBio(bio, socialLinks);
+    renderHero(bio);
+    renderAbout(bio, skills);
     renderProjects(projects);
-    renderConnectTeaser(bio, socialLinks);
+    renderSkills(skills);
+    renderServices(services);
+    renderTimeline(experience, education);
+    renderContact(bio);
     renderFooter(bio, socialLinks);
-
-    initReveal();
   } catch (error) {
     console.error('Failed to load portfolio data:', error);
-    document.querySelectorAll('.hero__loading').forEach((el) => {
-      el.textContent = 'Failed to load content. Please refresh.';
-    });
+  } finally {
+    initReveal();
   }
 }
 
-/*=============== RENDER: HERO ===============*/
-function renderBio(bio, socialLinks) {
-  if (bio) {
-    document.title =
-      (bio.fullName ? bio.fullName + "'s Portfolio" : 'Portfolio');
+/*=============== HERO ===============*/
+function renderHero(bio) {
+  if (!bio) return;
 
-    // Hero heading
-    const heading = document.getElementById('hero-heading');
-    const greeting = bio.greeting || "Hi, I'm";
-    const lines = (bio.heroLines || []).filter((l) => l && l.trim());
-    let headingHtml = escapeHtml(greeting) + ' ' + escapeHtml(bio.fullName) + ' <br />';
-    lines.forEach((line) => {
-      headingHtml += escapeHtml(line) + ' <br />';
-    });
-    heading.innerHTML = headingHtml;
+  if (bio.fullName) document.title = bio.fullName + ' — Portfolio';
 
-    // Profile image
-    const profileImg = document.getElementById('hero-profile-image');
-    profileImg.src = bio.profileImage || 'assets/logo-white.png';
-    profileImg.alt = bio.fullName + ' profile photo';
-
-    // Biography
-    document.getElementById('hero-about').textContent =
-      bio.about || 'Hello, welcome to my portfolio.';
-
-    // Contact
-    const contactParts = [];
-    if (bio.location) contactParts.push(escapeHtml(bio.location));
-    if (bio.email) contactParts.push('<a href="mailto:' + escapeHtml(bio.email) + '">' + escapeHtml(bio.email) + '</a>');
-    if (bio.phone) contactParts.push(escapeHtml(bio.phone));
-    document.getElementById('hero-contact').innerHTML =
-      contactParts.join(' <br /> ') || 'Loading...';
+  const brand = document.getElementById('nav-brand');
+  if (brand && bio.fullName) {
+    brand.textContent = bio.fullName.split(/\s+/)[0].toUpperCase() + '.';
   }
 
-  // Hero social links
-  const heroSocial = document.getElementById('hero-social-links');
-  const heroLinks = (socialLinks || []).filter((l) => l.position === 'both' || l.position === 'hero');
-  heroSocial.innerHTML = heroLinks
-    .map(
-      (l) =>
-        '<a href="' + escapeHtml(l.url) + '" target="_blank" rel="noopener" class="hero__social-item">' +
-        '<i class="' + escapeHtml(l.iconClass || 'ri-link') + '"></i></a>'
-    )
-    .join('');
+  const greeting = document.getElementById('hero-greeting');
+  if (greeting) {
+    greeting.innerHTML =
+      '<span class="dot"></span>' + escapeHtml(bio.greeting || "Hello, I'm");
+  }
+
+  const name = document.getElementById('hero-name');
+  if (name && bio.fullName) {
+    const parts = bio.fullName.trim().split(/\s+/);
+    if (parts.length > 1) {
+      const last = parts.pop();
+      name.innerHTML = escapeHtml(parts.join(' ')) + '<br>' + escapeHtml(last);
+    } else {
+      name.textContent = bio.fullName;
+    }
+  }
+
+  const lines = (bio.heroLines || [])
+    .map((l) => String(l).trim().replace(/[,;]+$/, ''))
+    .filter(Boolean);
+
+  setText('hero-role', lines.length ? lines.join('  ·  ') : bio.tagline || '');
+
+  const desc = bio.tagline && bio.tagline.trim() ? bio.tagline.trim() : bio.about || '';
+  setText('hero-desc', desc.length > 240 ? desc.slice(0, 237) + '...' : desc);
+
+  const resumeBtn = document.getElementById('hero-resume');
+  if (resumeBtn) {
+    const href = (bio.resumeFile || '').trim() || (bio.resumeUrl || '').trim();
+    if (href) {
+      resumeBtn.href = href;
+      if (bio.resumeFile) resumeBtn.setAttribute('download', '');
+      resumeBtn.innerHTML = '<i class="ri-download-2-line"></i>Download CV';
+      resumeBtn.style.display = 'inline-flex';
+    } else {
+      resumeBtn.removeAttribute('download');
+      resumeBtn.style.display = 'none';
+    }
+  }
 }
 
-/*=============== RENDER: PROJECTS ===============*/
+/*=============== ABOUT ===============*/
+function renderAbout(bio, skills) {
+  const body = document.getElementById('about-body');
+  if (body) {
+    if (bio && bio.about) {
+      const paragraphs = bio.about
+        .split(/\n{2,}/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+      body.innerHTML = paragraphs
+        .map((p) => '<p class="reveal">' + escapeHtml(p) + '</p>')
+        .join('');
+    } else {
+      body.innerHTML =
+        '<p class="reveal">Hello, welcome to my portfolio.</p>';
+    }
+  }
+
+  const focus = document.getElementById('about-focus');
+  if (focus && skills && skills.length) {
+    const groups = {};
+    skills.forEach((s) => {
+      const cat = s.category || 'Skills';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(s.name);
+    });
+    focus.innerHTML = Object.keys(groups)
+      .map(
+        (cat) =>
+          '<li><span>' + escapeHtml(cat) + '</span>' +
+          escapeHtml(groups[cat].join(', ')) + '</li>'
+      )
+      .join('');
+  }
+}
+
+/*=============== PROJECTS ===============*/
 function renderProjects(projects) {
-  const grid = document.getElementById('project-grid');
-  if (!projects || projects.length === 0) {
-    grid.innerHTML = '<p class="hero__loading">No projects yet.</p>';
+  if (window.PortfolioProjects) {
+    window.PortfolioProjects.render(projects || []);
+  }
+}
+
+/*=============== SKILLS ===============*/
+const SKILL_CATEGORY_ICONS = {
+  Development: 'ri-braces-line',
+  Design: 'ri-palette-line',
+  Tools: 'ri-tools-line'
+};
+
+const SKILL_CATEGORY_ORDER = ['Development', 'Design', 'Tools'];
+
+function renderSkills(skills) {
+  const wrap = document.getElementById('skill-groups');
+  if (!wrap) return;
+
+  if (!skills || !skills.length) {
+    wrap.innerHTML = '<p class="loading">No skills yet.</p>';
     return;
   }
 
-  grid.innerHTML = projects
-    .map((p) => {
-      const href =
-        p.link && p.link !== '#' && p.link !== ''
-          ? p.link
-          : p.github && p.github !== '#' && p.github !== ''
-            ? p.github
-            : '#';
-      const target = href === '#' ? '' : 'target="_blank" rel="noopener noreferrer"';
-      const detailHref = '/projects/' + p._id;
+  const order = [];
+  const groups = {};
+  skills.forEach((s) => {
+    const cat = s.category || 'Skills';
+    if (!groups[cat]) {
+      groups[cat] = [];
+      order.push(cat);
+    }
+    groups[cat].push(s);
+  });
+
+  order.sort((a, b) => {
+    const ia = SKILL_CATEGORY_ORDER.indexOf(a);
+    const ib = SKILL_CATEGORY_ORDER.indexOf(b);
+    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+  });
+
+  wrap.innerHTML = order
+    .map((cat) => {
+      const catIcon = SKILL_CATEGORY_ICONS[cat] || 'ri-code-s-slash-line';
+      const items = groups[cat]
+        .map(
+          (s) =>
+            '<div class="expertise-item">' +
+              '<div class="expertise-icon">' +
+                (s.icon
+                  ? '<img src="' + escapeHtml(s.icon) + '" alt="' +
+                    escapeHtml(s.name) + '" loading="lazy">'
+                  : '<i class="' + catIcon + '"></i>') +
+              '</div>' +
+              '<h3 class="expertise-name">' + escapeHtml(s.name) + '</h3>' +
+              (s.level
+                ? '<span class="expertise-level">' + escapeHtml(s.level) + '</span>'
+                : '') +
+            '</div>'
+        )
+        .join('');
+
       return (
-        '<article class="project-card">' +
-          '<a href="' + detailHref + '" class="project-card__media-link">' +
-            '<div class="project-card__media">' +
-              '<img src="' + (p.image || 'assets/img/shape-circle.svg') + '" ' +
-                'alt="' + escapeHtml(p.title) + '" class="project-card__image" loading="lazy" ' +
-                'onerror="this.onerror=null;this.style.display=\'none\'" />' +
-            '</div>' +
-          '</a>' +
-          '<div class="project-card__content">' +
-            '<a href="' + detailHref + '" class="project-card__title-link">' +
-              '<h3 class="project-card__title">' + escapeHtml(p.title) + '</h3>' +
-            '</a>' +
-            '<p class="project-card__description">' + escapeHtml(p.description || 'A web development project.') + '</p>' +
-            '<a href="' + escapeHtml(href) + '" class="project-card__link" ' + target + '>' +
-              'View Project <i class="ri-arrow-right-line"></i>' +
-            '</a>' +
-          '</div>' +
-        '</article>'
+        '<div class="expertise-category">' +
+          '<h3 class="expertise-category-title"><i class="' + catIcon + '"></i>' +
+            escapeHtml(cat) + '</h3>' +
+          '<div class="expertise-items">' + items + '</div>' +
+        '</div>'
       );
     })
     .join('');
 }
 
-/*=============== RENDER: CONNECT TEASER ===============*/
-function renderConnectTeaser(bio, socialLinks) {
-  const details = document.getElementById('connect-details');
-  if (!details) return;
+/*=============== SERVICES ===============*/
+function renderServices(services) {
+  const grid = document.getElementById('service-grid');
+  if (!grid) return;
 
-  let html = '';
-
-  if (bio && bio.email) {
-    html +=
-      '<div class="connect__detail">' +
-      '<span class="connect__detail-label"> Email </span>' +
-      '<a href="mailto:' + escapeHtml(bio.email) + '">' +
-      '<span class="connect__detail-value">' + escapeHtml(bio.email) + '</span></a>' +
-      '</div>';
-  }
-
-  if (bio && bio.whatsapp) {
-    const wa = bio.whatsapp.replace(/[^0-9]/g, '');
-    html +=
-      '<div class="connect__detail">' +
-      '<span class="connect__detail-label"> WhatsApp </span>' +
-      '<span class="connect__detail-value">' + escapeHtml(bio.whatsapp) + '</span>' +
-      '<a href="https://wa.me/' + wa + '" target="_blank" class="connect__action">' +
-      'Text me <i class="ri-arrow-right-line"></i></a>' +
-      '</div>';
-  }
-
-  details.innerHTML = html || '<p class="connect__info-text">No contact info yet.</p>';
-}
-
-/*=============== SUBMIT CONTACT FORM (landing) ===============*/
-async function submitContact() {
-  const feedback = document.getElementById('contact-message');
-  const btn = document.getElementById('contact-submit-btn');
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
-
-  if (!name || !email || !message) {
-    feedback.textContent = 'Please fill out all fields.';
-    feedback.style.color = 'red';
+  if (!services || !services.length) {
+    grid.innerHTML = '<div class="service-card"><p class="loading">No services yet.</p></div>';
     return;
   }
 
-  btn.disabled = true;
-  btn.innerHTML = 'Sending...';
-
-  try {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, message })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Failed to send');
-    feedback.textContent = 'Message sent successfully!';
-    feedback.style.color = 'green';
-    document.getElementById('contact-form').reset();
-  } catch (error) {
-    console.error(error);
-    feedback.textContent = error.message || 'Failed to send. Please try again.';
-    feedback.style.color = 'red';
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Send <i class="ri-send-plane-fill"></i>';
-  }
-}
-
-/*=============== RENDER: FOOTER ===============*/
-function renderFooter(bio, socialLinks) {
-  const tagline = document.getElementById('footer-tagline');
-  if (bio && bio.tagline) {
-    tagline.textContent = bio.tagline;
-  } else if (bio && bio.about) {
-    tagline.textContent = bio.about.length > 60 ? bio.about.slice(0, 60) + '...' : bio.about;
-  }
-
-  const footerSocial = document.getElementById('footer-social');
-  const footerLinks = (socialLinks || []).filter((l) => l.position === 'both' || l.position === 'footer');
-  footerSocial.innerHTML = footerLinks
+  grid.innerHTML = services
     .map(
-      (l) =>
-        '<a href="' + escapeHtml(l.url) + '" target="_blank" rel="noopener" class="page-footer__social-item">' +
-        '<i class="' + escapeHtml(l.iconClass || 'ri-link') + '"></i></a>'
+      (s) =>
+        '<div class="service-card">' +
+          '<div class="service-icon"><i class="' + escapeHtml(s.icon || 'ri-code-line') + '"></i></div>' +
+          '<h3>' + escapeHtml(s.name) + '</h3>' +
+          '<p class="service-desc">' + escapeHtml(s.description || '') + '</p>' +
+          '<a href="#contact" class="service-request" data-service="' +
+            escapeHtml(s.name) + '">Request this service <span class="arrow">&rarr;</span></a>' +
+        '</div>'
     )
     .join('');
 
-  document.getElementById('copyright-text').textContent =
-    '© ' + new Date().getFullYear() + (bio && bio.fullName ? ' ' + bio.fullName : '') + '. All rights reserved.';
+  populateServiceOptions(services);
+  bindServiceRequests();
 }
 
-/*=============== SCROLLREVEAL (run after data renders) ===============*/
-function initReveal() {
-  if (window.ScrollReveal) {
-    ScrollReveal().reveal('.segment', {
-      origin: 'bottom',
-      distance: '50px',
-      duration: 1000,
-      delay: 200,
-      reset: false
-    });
-    ScrollReveal().reveal('.hero__heading', { delay: 300, origin: 'left' });
-    ScrollReveal().reveal('.hero__image-container', { delay: 500, origin: 'right' });
-    ScrollReveal().reveal('.hero__social-item', {
-      interval: 200,
-      origin: 'bottom',
-      distance: '20px'
-    });
-    ScrollReveal().reveal('.project-card', {
-      interval: 150,
-      origin: 'bottom',
-      distance: '30px'
-    });
-    ScrollReveal().reveal('.expertise__item', { interval: 100, origin: 'bottom', distance: '20px' });
-    ScrollReveal().reveal('.background__item', { interval: 100, origin: 'left', distance: '20px' });
-    ScrollReveal().reveal('.connect__form-container', { origin: 'right', distance: '30px', delay: 300 });
-  }
+function populateServiceOptions(services) {
+  const select = document.getElementById('service-field');
+  if (!select) return;
+
+  const current = select.value;
+  const names = (services || []).map((s) => s.name).filter(Boolean);
+  let html = '<option value="General inquiry">General inquiry</option>';
+  names.forEach((name) => {
+    html += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+  });
+  select.innerHTML = html;
+
+  if (current && names.indexOf(current) !== -1) select.value = current;
 }
 
-/*=============== MENU TOGGLE ===============*/
-document.addEventListener('DOMContentLoaded', () => {
-  const navMenu = document.getElementById('nav-menu'),
-        navToggle = document.getElementById('nav-toggle'),
-        navClose = document.getElementById('nav-close'),
-        navLinks = document.querySelectorAll('.navbar__url');
-
-  if (navToggle) {
-    navToggle.addEventListener('click', () => navMenu.classList.add('show-menu'));
-  }
-  if (navClose) {
-    navClose.addEventListener('click', () => navMenu.classList.remove('show-menu'));
-  }
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => navMenu.classList.remove('show-menu'));
-  });
-
-  /*=============== DARK THEME ===============*/
-  const themeButton = document.getElementById('theme-toggle');
-  const darkTheme = 'dark-theme';
-  const iconTheme = 'ri-sun-line';
-  const logos = document.querySelectorAll('.logo');
-
-  const selectedTheme = localStorage.getItem('selected-theme');
-  const selectedIcon = localStorage.getItem('selected-icon');
-
-  const getCurrentTheme = () =>
-    document.body.classList.contains(darkTheme) ? 'dark' : 'light';
-  const getCurrentIcon = () =>
-    themeButton.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line';
-  const updateLogo = (isDark) => {
-    logos.forEach((l) => {
-      l.src = isDark ? 'assets/logo-white.png' : 'assets/logo-black.png';
-    });
-  };
-
-  if (selectedTheme) {
-    const isDark = selectedTheme === 'dark';
-    document.body.classList[isDark ? 'add' : 'remove'](darkTheme);
-    themeButton.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme);
-    updateLogo(isDark);
-  } else {
-    const isDarkDefault = document.body.classList.contains(darkTheme);
-    if (isDarkDefault) {
-      themeButton.classList.remove(iconTheme);
-    } else {
-      themeButton.classList.add(iconTheme);
-    }
-    updateLogo(isDarkDefault);
-  }
-
-  themeButton.addEventListener('click', () => {
-    const isDarkNow = document.body.classList.toggle(darkTheme);
-    themeButton.classList.toggle(iconTheme);
-    localStorage.setItem('selected-theme', getCurrentTheme());
-    localStorage.setItem('selected-icon', getCurrentIcon());
-    updateLogo(isDarkNow);
-  });
-
-  /*=============== ACTIVE LINK STATE ===============*/
-  const sections = document.querySelectorAll('section[id]');
-
-  const scrollActive = () => {
-    const scrollY = window.pageYOffset;
-    sections.forEach((current) => {
-      const sectionHeight = current.offsetHeight;
-      const sectionTop = current.offsetTop - 58;
-      const sectionId = current.getAttribute('id');
-      const link = document.querySelector('.navbar__url[href*="' + sectionId + '"]');
-      if (link) {
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-          link.classList.add('active-url');
-        } else {
-          link.classList.remove('active-url');
-        }
+function bindServiceRequests() {
+  document.querySelectorAll('.service-request').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const select = document.getElementById('service-field');
+      const name = btn.getAttribute('data-service');
+      if (select && name) {
+        Array.prototype.forEach.call(select.options, (opt) => {
+          if (opt.value === name) select.value = name;
+        });
       }
+      window.setTimeout(() => {
+        const nameField = document.getElementById('name-field');
+        if (nameField) nameField.focus({ preventScroll: true });
+      }, 550);
     });
+  });
+}
+
+/*=============== EXPERIENCE & EDUCATION ===============*/
+function renderTimeline(experience, education) {
+  const timeline = document.getElementById('timeline');
+  if (!timeline) return;
+
+  const items = [];
+
+  (experience || []).forEach((e) => {
+    items.push({
+      tag: 'Experience',
+      date: e.duration || '',
+      title: e.role || '',
+      desc: [e.company, e.description].filter(Boolean).join(' — ')
+    });
+  });
+
+  (education || []).forEach((ed) => {
+    items.push({
+      tag: 'Education',
+      date: ed.duration || '',
+      title: ed.degree || '',
+      desc: [ed.institution, ed.description].filter(Boolean).join(' — ')
+    });
+  });
+
+  if (!items.length) {
+    timeline.innerHTML = '<p class="loading">No timeline entries yet.</p>';
+    return;
+  }
+
+  timeline.innerHTML = items
+    .map(
+      (it) =>
+        '<div class="timeline-item reveal">' +
+          (it.tag ? '<span class="timeline-tag">' + escapeHtml(it.tag) + '</span>' : '') +
+          (it.date ? '<p class="timeline-date">' + escapeHtml(it.date) + '</p>' : '') +
+          '<h3 class="timeline-title">' + escapeHtml(it.title) + '</h3>' +
+          (it.desc ? '<p class="timeline-desc">' + escapeHtml(it.desc) + '</p>' : '') +
+        '</div>'
+    )
+    .join('');
+}
+
+/*=============== CONTACT ===============*/
+function renderContact(bio) {
+  const heading = document.querySelector('.contact-inner h2');
+  const intro = document.getElementById('contact-intro');
+
+  if (intro && bio && bio.tagline) intro.textContent = bio.tagline;
+
+  if (heading && bio && bio.fullName) {
+    heading.textContent = "Let's build something meaningful.";
+  }
+}
+
+/*=============== FOOTER ===============*/
+function renderFooter(bio, socialLinks) {
+  if (bio && bio.fullName) setText('footer-brand', bio.fullName);
+
+  const desc =
+    (bio && bio.tagline) ||
+    (bio && bio.about ? bio.about.slice(0, 90) : '') ||
+    'Creating digital experiences that matter.';
+  setText('footer-desc', desc);
+
+  const social = document.getElementById('footer-social');
+  if (social) {
+    const visible = (socialLinks || []).filter(
+      (l) => l.position === 'both' || l.position === 'footer'
+    );
+    social.innerHTML = visible
+      .map(
+        (l) =>
+          '<a href="' + escapeHtml(l.url) + '" target="_blank" rel="noopener">' +
+          escapeHtml(l.platform) + '</a>'
+      )
+      .join('');
+  }
+
+  setText(
+    'footer-copy',
+    '\u00A9 ' + new Date().getFullYear() + (bio && bio.fullName ? ' ' + bio.fullName : '')
+  );
+}
+
+/*=============== CONTACT FORM ===============*/
+function setFormStatus(message, type) {
+  const status = document.getElementById('form-status');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.remove('success', 'error');
+  status.classList.add('visible');
+  if (type) status.classList.add(type);
+}
+
+async function submitContact(event) {
+  event.preventDefault();
+
+  const form = document.getElementById('contact-form');
+  const btn = document.getElementById('contact-submit');
+  const name = document.getElementById('name-field').value.trim();
+  const email = document.getElementById('email-field').value.trim();
+  const service = document.getElementById('service-field').value;
+  const message = document.getElementById('message-field').value.trim();
+
+  if (!name || !email || !message) {
+    setFormStatus('Please fill in your name, email and message.', 'error');
+    return;
+  }
+
+  const original = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    const isServiceRequest = service && service !== 'General inquiry';
+    const url = isServiceRequest ? '/api/service-requests' : '/api/contact';
+    const payload = isServiceRequest
+      ? { service, fullName: name, email, message }
+      : { name, email, subject: 'General inquiry', message };
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) throw new Error(data.message || 'Failed to send');
+
+    setFormStatus(data.message || 'Message sent. Thank you!', 'success');
+    form.reset();
+  } catch (error) {
+    setFormStatus(error.message || 'Failed to send. Please try again.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
+  }
+}
+
+/*=============== REVEAL ON SCROLL ===============*/
+function initReveal() {
+  const targets = document.querySelectorAll('.reveal, .timeline-item');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach((el) => el.classList.add('in-view'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+  );
+
+  targets.forEach((el) => observer.observe(el));
+}
+
+/*=============== THEME ===============*/
+function initTheme() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  const icon = btn.querySelector('i');
+
+  const apply = (light) => {
+    document.body.classList.toggle('light-theme', light);
+    if (icon) icon.className = light ? 'ri-moon-line' : 'ri-sun-line';
   };
 
-  window.addEventListener('scroll', scrollActive, { passive: true });
+  apply(localStorage.getItem('selected-theme') === 'light');
 
-  /*=============== SHOW SCROLL UP BUTTON ===============*/
-  const scrollTopBtn = document.getElementById('scroll-top');
+  btn.addEventListener('click', () => {
+    const light = !document.body.classList.contains('light-theme');
+    apply(light);
+    localStorage.setItem('selected-theme', light ? 'light' : 'dark');
+  });
+}
 
-  const scrollUp = () => {
-    if (window.scrollY >= 350) {
-      scrollTopBtn.classList.add('show-scroll');
-    } else {
-      scrollTopBtn.classList.remove('show-scroll');
+/*=============== NAV / HEADER ===============*/
+function initNav() {
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const menu = document.getElementById('nav-menu');
+  const toggle = document.getElementById('nav-toggle');
+  const closeBtn = document.getElementById('nav-close');
+  if (menu) {
+    const closeMenu = () => {
+      menu.classList.remove('show-menu');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    };
+    const openMenu = () => {
+      menu.classList.add('show-menu');
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    };
+
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        if (menu.classList.contains('show-menu')) closeMenu();
+        else openMenu();
+      });
     }
-  };
-
-  window.addEventListener('scroll', scrollUp, { passive: true });
-
-  if (scrollTopBtn) {
-    scrollTopBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
     });
   }
 
-  /*=============== LOAD PORTFOLIO CONTENT ===============*/
+  const sections = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-link');
+  const setActive = (id) => {
+    navAnchors.forEach((a) =>
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id)
+    );
+  };
+
+  if ('IntersectionObserver' in window) {
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+    );
+    sections.forEach((s) => navObserver.observe(s));
+  }
+}
+
+/*=============== HERO BEAMS ===============*/
+function initBeams() {
+  const beamGroup = document.getElementById('beam-group');
+  const svg = document.getElementById('beam-svg');
+  if (!beamGroup || !svg) return;
+
+  const NUM_LINES = 22;
+  const cx = 640;
+  const cy = 500;
+  const svgns = 'http://www.w3.org/2000/svg';
+
+  const describeWavyRing = (r, wobble, points) => {
+    let d = '';
+    for (let p = 0; p <= points; p++) {
+      const t = (p / points) * Math.PI * 2;
+      const wob =
+        Math.sin(t * 3 + r * 0.05) * wobble * 0.35 + Math.cos(t * 5) * wobble * 0.15;
+      const rr = r + wob;
+      const x = cx + Math.cos(t) * rr * 1.35;
+      const y = cy + Math.sin(t) * rr * 0.7;
+      d += (p === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    }
+    return d + 'Z';
+  };
+
+  beamGroup.innerHTML = '';
+  for (let i = 0; i < NUM_LINES; i++) {
+    const r = 90 + i * 26;
+    const wobble = 34 + (i % 5) * 6;
+    const path = document.createElementNS(svgns, 'path');
+    path.setAttribute('d', describeWavyRing(r, wobble, 64 + (i % 3) * 10));
+    path.setAttribute('transform', 'rotate(' + ((i * 7) % 360) + ' ' + cx + ' ' + cy + ')');
+    path.setAttribute('opacity', Math.max(0.55 - (i / NUM_LINES) * 0.42, 0.05).toFixed(2));
+    path.setAttribute('stroke-width', i % 4 === 0 ? '1.1' : '0.6');
+    beamGroup.appendChild(path);
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hero = document.querySelector('.hero');
+
+  if (!reduceMotion && window.matchMedia('(pointer:fine)').matches && hero) {
+    let targetX = 0;
+    let targetY = 0;
+    let curX = 0;
+    let curY = 0;
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 26;
+      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 18;
+    });
+
+    const raf = () => {
+      curX += (targetX - curX) * 0.04;
+      curY += (targetY - curY) * 0.04;
+      svg.style.transform =
+        'translate(calc(-50% + ' + curX.toFixed(1) + 'px), calc(-50% + ' +
+        curY.toFixed(1) + 'px))';
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+
+    const t0 = Date.now();
+    const ambient = () => {
+      const t = (Date.now() - t0) / 1000;
+      beamGroup.style.transform = 'rotate(' + (Math.sin(t * 0.05) * 1.6).toFixed(2) + 'deg)';
+      requestAnimationFrame(ambient);
+    };
+    requestAnimationFrame(ambient);
+  }
+}
+
+/*=============== INPUT FOCUS STATES ===============*/
+function initFields() {
+  document
+    .querySelectorAll('.field input, .field select, .field textarea')
+    .forEach((input) => {
+      const field = input.closest('.field');
+      input.addEventListener('focus', () => field.classList.add('focused'));
+      input.addEventListener('blur', () => field.classList.remove('focused'));
+    });
+}
+
+/*=============== INIT ===============*/
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initNav();
+  initBeams();
+  initFields();
+
+  const form = document.getElementById('contact-form');
+  if (form) form.addEventListener('submit', submitContact);
+
   loadPortfolio();
 });

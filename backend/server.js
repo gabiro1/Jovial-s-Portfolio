@@ -50,26 +50,14 @@ app.use('/api/settings', settingsRoutes);
 // Dashboard redirect
 app.get('/admin', (req, res) => res.redirect('/dashboard/index.html'));
 
-// Project pages
-app.get('/projects', (req, res) =>
-  res.sendFile(path.join(FRONTEND_DIR, 'portfolio', 'projects.html'))
-);
+// Project detail page
 app.get('/projects/:id', (req, res) =>
   res.sendFile(path.join(FRONTEND_DIR, 'portfolio', 'project.html'))
 );
 
-// Section pages
-app.get('/skills', (req, res) =>
-  res.sendFile(path.join(FRONTEND_DIR, 'portfolio', 'skills.html'))
-);
-app.get('/education', (req, res) =>
-  res.sendFile(path.join(FRONTEND_DIR, 'portfolio', 'education.html'))
-);
-app.get('/connect', (req, res) =>
-  res.sendFile(path.join(FRONTEND_DIR, 'portfolio', 'connect.html'))
-);
-app.get('/services', (req, res) =>
-  res.sendFile(path.join(FRONTEND_DIR, 'portfolio', 'services.html'))
+// Legacy section URLs now live on the single-page home
+app.get(['/projects', '/skills', '/education', '/connect', '/services'], (req, res) =>
+  res.redirect('/')
 );
 
 // Create default admin if it doesn't exist
