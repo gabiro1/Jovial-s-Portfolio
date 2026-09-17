@@ -8,13 +8,13 @@
     { "source": "/projects", "destination": "/portfolio/projects.html" },
     { "source": "/projects/:id", "destination": "/portfolio/project.html" },
     { "source": "/assets/:path*", "destination": "/portfolio/assets/:path*" },
-    {
+{
       "source": "/api/:path*",
-      "destination": "https://jovial-s-portfolio-bcd.onrender.com.onrender.com/api/:path*"
+      "destination": "/api/proxy?target=:path*"
     },
     {
       "source": "/uploads/:path*",
-      "destination": "https://jovial-s-portfolio-bcd.onrender.com.onrender.com/uploads/:path*"
+      "destination": "/api/proxy?target=/uploads/:path*"
     }
   ]
 }
