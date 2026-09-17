@@ -10,7 +10,7 @@
     { "source": "/assets/:path*", "destination": "/portfolio/assets/:path*" },
 {
       "source": "/api/:path*",
-      "destination": "/api/proxy?target=:path*"
+      "destination": "/api/proxy?target=/api/:path*"
     },
     {
       "source": "/uploads/:path*",
