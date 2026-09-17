@@ -84,7 +84,10 @@ function renderHero(bio) {
 
   setText('hero-role', lines.length ? lines.join('  ·  ') : bio.tagline || '');
 
-  const desc = bio.tagline && bio.tagline.trim() ? bio.tagline.trim() : bio.about || '';
+  let desc = (bio.tagline || '').trim();
+  if (!desc && bio.about) {
+    desc = ((bio.about.match(/.*?[.!?](\s|$)/) || [bio.about])[0]).trim();
+  }
   setText('hero-desc', desc.length > 240 ? desc.slice(0, 237) + '...' : desc);
 
   const resumeBtn = document.getElementById('hero-resume');

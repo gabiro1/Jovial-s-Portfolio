@@ -174,7 +174,7 @@ nav.wrap{display:flex; align-items:center; justify-content:space-between; gap:28
   background:var(--hero-vignette);
   pointer-events:none;
 }
-.hero-content{ position:relative; z-index:2; max-width:760px; padding-top:70px; }
+.hero-content{ position:relative; z-index:2; max-width:760px; padding-top:clamp(70px, 15vh, 190px); }
 .hero-greeting{
   font-size:1rem;
   color:var(--text-dim);

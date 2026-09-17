@@ -38,12 +38,17 @@
         '</div>' +
 
         '<div class="form-group form-group--full">' +
+        '<label class="form-label" for="bio-tagline">Hero tagline</label>' +
+        '<input class="form-input" type="text" id="bio-tagline" value="' + window.escapeHtml(bio.tagline || '') + '" placeholder="Short intro line shown in the hero" />' +
+        '<span class="form-hint">Short line shown under your hero roles. If empty, the first sentence of your About is used instead.</span>' +
+        '</div>' +
+
+        '<div class="form-group form-group--full">' +
         '<label class="form-label" for="bio-about">About / Biography</label>' +
         '<textarea class="form-textarea" id="bio-about">' + window.escapeHtml(bio.about || '') + '</textarea>' +
         '</div>' +
 
         formField('Location', 'bio-location', 'text', bio.location) +
-        formField('Tagline', 'bio-tagline', 'text', bio.tagline, 'Short phrase for footer / SEO') +
         formField('Email', 'bio-email', 'email', bio.email) +
         formField('Phone', 'bio-phone', 'text', bio.phone) +
         formField('WhatsApp (international format)', 'bio-whatsapp', 'text', bio.whatsapp, 'e.g. +250780259327') +
