@@ -8,6 +8,7 @@ const BLOCKED_HEADERS = new Set([
   'transfer-encoding',
   'accept-encoding',
   'upgrade',
+  'expect',
   'x-vercel-id',
   'x-vercel-forwarded-for',
   'x-forwarded-host',
