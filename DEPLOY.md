@@ -29,12 +29,19 @@ Use a free **MongoDB Atlas** cluster (M0).
    ```
 5. Migrate your existing local content into Atlas. Pick ONE:
 
-   **Option A — re-seed into Atlas (simplest)**
+   **Option A — copy local data as-is (recommended; keeps your admin password)**
+   ```powershell
+   # from backend/, with ATLAS_MONGODB_URI set to your Atlas string:
+   node migrate-to-atlas.js
+   ```
+   Copies every collection without changing anything else. Safe to re-run.
+
+   **Option B — re-seed into Atlas (resets content + admin password)**
    - In `backend/.env`, set `MONGODB_URI` to the Atlas string.
    - Run `npm run seed` from `backend/`. This clears the Atlas collections
      and re-inserts the portfolio content + the admin user.
 
-   **Option B — copy local data as-is**
+   **Option C — mongodump/mongorestore**
    ```bash
    mongodump --db portfolio --out ./dump
    mongorestore --uri "mongodb+srv://<user>:<password>@<cluster>.mongodb.net" ./dump
@@ -61,10 +68,12 @@ Use a free **MongoDB Atlas** cluster (M0).
    |-----|-------|
    | `MONGODB_URI` | your Atlas connection string |
    | `JWT_SECRET` | a long random string |
-   | `ADMIN_DEFAULT_EMAIL` | your login email |
+   | `ADMIN_DEFAULT_EMAIL` | your login email (must match the existing Atlas admin, e.g. `jovialgfleuron@yopmail.com`) |
    | `ADMIN_DEFAULT_PASSWORD` | a strong password |
    > `PORT` is provided automatically by Render — do not set it.
-4. Deploy. On first boot the server creates the admin user from the env vars.
+4. Deploy. On first boot the server creates an admin **only if that email does not
+   already exist** — since your migrated Atlas DB already has the admin, set
+   `ADMIN_DEFAULT_EMAIL` to that same address so no second account is created.
 5. Test: `https://<your-service>.onrender.com/api/bio` should return JSON.
 
 Optional: instead of creating the service by hand, Render can read `render.yaml`
